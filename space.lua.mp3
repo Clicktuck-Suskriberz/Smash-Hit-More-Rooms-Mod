@@ -1,0 +1,39 @@
+function init()
+	pStart = mgGetBool("start", true)
+	pEnd = mgGetBool("end", true)
+
+	mgFogColor(1.4, 1.25, 1, .5, 0, .4)
+	mgMusic("custom3")
+	mgReverb(0.1, 1.1, 0.05) 
+	mgEcho(0.15, 0.7, 0.5, 0.5) 
+	mgParticles("sidesrising")
+
+	confSegment("canyon/space/bar", 1)
+	confSegment("canyon/space/empty", 1)
+	confSegment("canyon/space/ngon", 1)
+	confSegment("canyon/space/rotor", 1)
+	confSegment("canyon/space/score", 1)
+	
+	l = 0
+	
+	if pStart then
+		l = l + mgSegment("canyon/space/start", -l)	
+	end
+	
+	local targetLen = 180
+	if mgGet("player.mode")=="0" then targetLen = 160 end
+	if mgGet("player.mode")=="2" then targetLen = 200 end
+	while l < targetLen do
+		s = nextSegment()
+		l = l + mgSegment(s, -l)	
+	end
+
+	if pEnd then 
+		l = l + mgSegment("canyon/space/door", -l)	
+	end
+		
+	mgLength(l)
+end
+
+function tick()
+end
